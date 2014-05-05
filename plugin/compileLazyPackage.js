@@ -1,6 +1,7 @@
 var _ = Npm.require('underscore');
 var path = Npm.require('path');
 var crypto = Npm.require('crypto');
+var yaml = Npm.require('js-yaml');
 var release = Npm.require('./release.js');
 var unipackage = Npm.require('./unipackage.js');
 
@@ -25,13 +26,13 @@ var sourceMappingURL = function(uri, sourceMap) {
   return path.join(path.dirname(uri), cacheBuster(sourceMap) + '.map');
 }
 
-Plugin.registerSourceHandler('lazypackages', function(compileStep) {
-  // A .lazypackages file holds a list of the lazy packages to provide to the client.
-  var options = JSON.parse(compileStep.read().toString('utf8'));
+Plugin.registerSourceHandler('lazypkgs.yml', function(compileStep) {
+  // A .lazypkgs.yml file holds a list of the lazy packages to provide to the client.
+  var options = yaml.safeLoad(compileStep.read().toString('utf8')) || {};
   var isBrowser = compileStep.archMatches('browser');
   var config = {};
 
-  _.each(options.packages, function(packageName) {
+  _.each(options.packages || [], function(packageName) {
     // Get the resources for the package
     var pkg = library.get(packageName);
     var slices = pkg.getDefaultSlices(compileStep.arch);

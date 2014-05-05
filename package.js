@@ -4,11 +4,10 @@ Package.describe({
 
 Package._transitional_registerBuildPlugin({
   name: 'compileLazyPackage',
-  use: [],
   sources: [
     'plugin/compileLazyPackage.js'
   ],
-  npmDependencies: {}
+  npmDependencies: { 'js-yaml': '3.0.1' }
 });
 
 Package.on_use(function(api) {
