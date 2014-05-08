@@ -42,6 +42,8 @@ This will load all of the javascript and css for the package. Calling this funct
 
 On the server, packages are not lazily loaded. Any JS and CSS assets will simply be added to the project.
 
+You can also add an (optional) callback as the second parameter to `LazyPackages.load()`, this will be called when all of the javascript for the package has been successfully loaded. It is passed no arguments.
+
 ## Limitations
 - Packages can add more resource types than just JS and CSS (such as document fragments).  This is currently not supported, and will display a warning.
 
