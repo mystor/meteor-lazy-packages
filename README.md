@@ -19,13 +19,14 @@ To use lazy-packages, simply add a file with the extension `.lazypkgs.yml`.  Thi
 
 When this file is compiled, it will compile the packages with those names, and will make them avaliable to the client.
 
-The packages which you lazy-load should NOT be added to your Meteor project, otherwise they will be loaded non-lazily, and when they are loaded lazily, they will be loaded twice.
+The packages which you lazy-load should *NOT* be added to your Meteor project, otherwise they will be loaded non-lazily, and when they are loaded lazily, they will be loaded twice.
 
 An example lazy-packages file is below:
 ```yaml
 # main.lazypkgs.yml
 
 minify: true  # If the minify option is set to true, the package will be minified before it is served.
+nowatch: false  # If the nowatch option is set to true, the packages will not be watched for updates.
 packages:  # You want to list the packages to lazily load below
     - 'package-one'
     - 'package-two'
@@ -40,14 +41,14 @@ LazyPackages.load('package-name');
 
 This will load all of the javascript and css for the package. Calling this function multiple times with the same package will have no effect.
 
-On the server, packages are not lazily loaded. Any JS and CSS assets will simply be added to the project.
+On the server, packages are not lazily loaded. Any JS assets will simply be added to the project.
 
 You can also add an (optional) callback as the second parameter to `LazyPackages.load()`, this will be called when all of the javascript for the package has been successfully loaded. It is passed no arguments.
 
 ## Limitations
 - Packages can add more resource types than just JS and CSS (such as document fragments).  This is currently not supported, and will display a warning.
 
-- When a package which is being lazily loaded is edited, it will not be recompiled. The project needs to update in some other way before the code is recompiled.
+- Packages do not automatically detect whether your project should be minified.
 
 ## Contributing
 lazy-packages is still very much a work in progress. If you find bugs or unexpected behaviour, please report them. If you find a fix to a problem, please submit a pull request. I really appreciate it.
